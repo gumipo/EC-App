@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { push } from "connected-react-router";
-import { signInAcrion } from "../reducks/Users/actions";
+import { signIn } from "../reducks/Users/operations";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -9,14 +8,7 @@ const Login = () => {
   return (
     <div>
       <h2>ログイン</h2>
-      <button
-        onClick={() => {
-          dispatch(signInAcrion({ uid: "0005", username: "gumipo" }));
-          dispatch(push("/"));
-        }}
-      >
-        ログイン
-      </button>
+      <button onClick={() => dispatch(signIn())}>ログイン</button>
     </div>
   );
 };
