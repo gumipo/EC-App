@@ -7,3 +7,8 @@ export const getUserName = createSelector(
   [usersSelector],
   (state) => state.username
 );
+
+export const getIsSignedIn = createSelector(
+  [usersSelector],
+  (state) => state.isSignedIn
+);

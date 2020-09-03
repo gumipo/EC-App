@@ -1,15 +1,14 @@
 import React, { useState, useCallback } from "react";
 import { TextInput } from "../Component/UIkit";
 import { PrimaryButton } from "../Component/UIkit";
-import { signIn } from "../reducks/Users/operations";
+import { resetPassword } from "../reducks/Users/operations";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
-const SignIn = () => {
+const Reset = () => {
   const dispatch = useDispatch();
 
-  const [email, setEmail] = useState(""),
-    [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
   const iunputEmail = useCallback(
     (event) => {
@@ -17,16 +16,10 @@ const SignIn = () => {
     },
     [setEmail]
   );
-  const iunputPassword = useCallback(
-    (event) => {
-      setPassword(event.target.value);
-    },
-    [setPassword]
-  );
 
   return (
     <div className="c-section-container">
-      <h2 className="u-text__headline u-text-center">サインイン</h2>
+      <h2 className="u-text__headline u-text-center">パスワードのリセット</h2>
       <div className="module-spacer--medium" />
 
       <TextInput
@@ -39,30 +32,17 @@ const SignIn = () => {
         type={"email"}
         onChange={iunputEmail}
       />
-      <TextInput
-        fullWidth={true}
-        label={"パスワード"}
-        multiline={false}
-        required={true}
-        rows={1}
-        value={password}
-        type={"password"}
-        onChange={iunputPassword}
-      />
 
       <div className="module-spacer--medium" />
       <div className="center">
         <PrimaryButton
-          label={"Sign In"}
-          onClick={() => dispatch(signIn(email, password))}
+          label={"Reset Password"}
+          onClick={() => dispatch(resetPassword(email))}
         />
         <div className="module-spacer--medium" />
-        <p onClick={() => dispatch(push("/signup"))}>アカウント登録はこちら</p>
-        <p onClick={() => dispatch(push("/signin/reset"))}>
-          パスワードをお忘れの方はこちら
-        </p>
+        <p onClick={() => dispatch(push("/signin"))}>ログイン画面に戻る</p>
       </div>
     </div>
   );
 };
-export default SignIn;
+export default Reset;

@@ -3,6 +3,7 @@ import { TextInput } from "../Component/UIkit";
 import { PrimaryButton } from "../Component/UIkit";
 import { signUp } from "../reducks/Users/operations";
 import { useDispatch } from "react-redux";
+import { push } from "connected-react-router";
 
 const SignUp = () => {
   const dispatch = useDispatch();
@@ -89,6 +90,10 @@ const SignUp = () => {
             dispatch(signUp(username, email, password, confirmPassword))
           }
         />
+        <div className="module-spacer--medium" />
+        <p onClick={() => dispatch(push("/signin"))}>
+          すでにアカウントをお持ちの方はこちら
+        </p>
       </div>
     </div>
   );

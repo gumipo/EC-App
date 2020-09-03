@@ -1,14 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { push } from "connected-react-router";
 import { getUserId, getUserName } from "../reducks/Users/selector";
+import { signOut } from "../reducks/Users/operations";
 
 const Home = () => {
+  const dispatch = useDispatch();
+
   const selector = useSelector((state) => state);
   const uid = getUserId(selector);
   const username = getUserName(selector);
-
-  const dispatch = useDispatch();
 
   return (
     <div>
@@ -16,7 +16,7 @@ const Home = () => {
       <p>ユーザーID:{uid}</p>
       <p>ユーザー名:{username}</p>
 
-      <button onClick={() => dispatch(push("/login"))}>ログアウト</button>
+      <button onClick={() => dispatch(signOut())}>ログアウト</button>
     </div>
   );
 };
