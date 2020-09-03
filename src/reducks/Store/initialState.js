@@ -2,9 +2,9 @@ const initialState = {
   products: {},
 
   users: {
-    icon: "",
     isSignedIn: false,
     uid: "",
+    role: "",
     username: "",
   },
 };
