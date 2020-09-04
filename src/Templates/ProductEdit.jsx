@@ -4,6 +4,7 @@ import { saveProduct } from "../reducks/Products/operations";
 import { useDispatch } from "react-redux";
 import ImageArea from "../Component/Products/ImageArea";
 import { db } from "../Firebase/index";
+import { SetSizeArea } from "../Component/Products/index";
 
 const ProductEdit = () => {
   const dispatch = useDispatch();
@@ -19,7 +20,8 @@ const ProductEdit = () => {
     [category, setCategory] = useState(""),
     [gender, setGender] = useState(""),
     [images, setImages] = useState([]),
-    [price, setPrice] = useState("");
+    [price, setPrice] = useState(""),
+    [sizes, setSizes] = useState([]);
 
   const inputName = useCallback(
     (event) => {
@@ -53,6 +55,7 @@ const ProductEdit = () => {
     { id: "female", name: "レディース" },
   ];
 
+  //firestoreから取得した情報をreacthookでセットする
   useEffect(() => {
     if (id !== "") {
       db.collection("products")
@@ -60,13 +63,13 @@ const ProductEdit = () => {
         .get()
         .then((snapshot) => {
           const data = snapshot.data();
-          console.log(data);
           setImages(data.images);
           setName(data.name);
           setDescription(data.description);
           setGender(data.gender);
           setCategory(data.category);
           setPrice(data.price);
+          setSizes(data.sizes);
         });
     }
   }, [id]);
@@ -120,13 +123,25 @@ const ProductEdit = () => {
           type={"number"}
           onChange={inputPrice}
         />
-        <div className="module-spacer--medium" />
+        <div className="module-spacer--small" />
+        <SetSizeArea sizes={sizes} setSizes={setSizes} />
+        <div className="module-spacer--small" />
+
         <div className="center">
           <PrimaryButton
             label={"商品情報を登録"}
             onClick={() =>
               dispatch(
-                saveProduct(name, description, category, gender, price, images)
+                saveProduct(
+                  id,
+                  name,
+                  description,
+                  category,
+                  gender,
+                  price,
+                  images,
+                  sizes
+                )
               )
             }
           />
