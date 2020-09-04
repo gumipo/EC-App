@@ -1,11 +1,35 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { TextInput, SelectBox, PrimaryButton } from "../Component/UIkit";
 import { saveProduct } from "../reducks/Products/operations";
 import { useDispatch } from "react-redux";
 import ImageArea from "../Component/Products/ImageArea";
+import { db } from "../Firebase/index";
 
 const ProductEdit = () => {
   const dispatch = useDispatch();
+
+  //dbから商品情報の取得
+  let id = window.location.pathname.split("/product/edit")[1];
+  if (id !== "") {
+    id = id.split("/")[1];
+  }
+  useEffect(() => {
+    if (id !== "") {
+      db.collection("products")
+        .doc(id)
+        .get()
+        .then((snapshot) => {
+          const data = snapshot.data();
+          console.log(data);
+          // setImages(data.images);
+          // setName(data.name);
+          // setDescription(data.description);
+          // setGender(data.gender);
+          // setCategory(data.category);
+          // setPrice(data.price);
+        });
+    }
+  }, [id]);
 
   const [name, setName] = useState(""),
     [description, setDescription] = useState(""),
@@ -100,7 +124,17 @@ const ProductEdit = () => {
           <PrimaryButton
             label={"商品情報を登録"}
             onClick={() =>
-              dispatch(saveProduct(name, description, category, gender, price))
+              dispatch(
+                saveProduct(
+                  id,
+                  name,
+                  description,
+                  category,
+                  gender,
+                  price,
+                  images
+                )
+              )
             }
           />
         </div>
