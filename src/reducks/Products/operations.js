@@ -6,7 +6,7 @@ const productsRef = db.collection("products");
 export const saveProduct = (
   name,
   description,
-  category,fesaaaaaaaaaaa
+  category,
   gender,
   price,
   images

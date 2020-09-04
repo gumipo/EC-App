@@ -13,23 +13,6 @@ const ProductEdit = () => {
   if (id !== "") {
     id = id.split("/")[1];
   }
-  useEffect(() => {
-    if (id !== "") {
-      db.collection("products")
-        .doc(id)
-        .get()
-        .then((snapshot) => {
-          const data = snapshot.data();
-          console.log(data);
-          // setImages(data.images);
-          // setName(data.name);
-          // setDescription(data.description);
-          // setGender(data.gender);
-          // setCategory(data.category);
-          // setPrice(data.price);
-        });
-    }
-  }, [id]);
 
   const [name, setName] = useState(""),
     [description, setDescription] = useState(""),
@@ -69,6 +52,24 @@ const ProductEdit = () => {
     { id: "male", name: "メンズ" },
     { id: "female", name: "レディース" },
   ];
+
+  useEffect(() => {
+    if (id !== "") {
+      db.collection("products")
+        .doc(id)
+        .get()
+        .then((snapshot) => {
+          const data = snapshot.data();
+          console.log(data);
+          setImages(data.images);
+          setName(data.name);
+          setDescription(data.description);
+          setGender(data.gender);
+          setCategory(data.category);
+          setPrice(data.price);
+        });
+    }
+  }, [id]);
 
   return (
     <section>
@@ -125,15 +126,7 @@ const ProductEdit = () => {
             label={"商品情報を登録"}
             onClick={() =>
               dispatch(
-                saveProduct(
-                  id,
-                  name,
-                  description,
-                  category,
-                  gender,
-                  price,
-                  images
-                )
+                saveProduct(name, description, category, gender, price, images)
               )
             }
           />
