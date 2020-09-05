@@ -48,6 +48,7 @@ const ProductEdit = () => {
     { id: "tops", name: "トップス" },
     { id: "shirts", name: "シャツ" },
     { id: "pants", name: "パンツ" },
+    { id: "shoes", name: "靴" },
   ];
   const genders = [
     { id: "all", name: "すべて" },

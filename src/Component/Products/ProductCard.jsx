@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -7,6 +7,15 @@ import Typography from "@material-ui/core/Typography";
 import NoImage from "../../assets/image/no_image.png";
 import { push } from "connected-react-router";
 import { useDispatch } from "react-redux";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+
+//import icon
+import IconButton from "@material-ui/core/IconButton";
+import MOreVertIcon from "@material-ui/icons/MoreVert";
+
+//import operation
+import { deleteProduct } from "../../reducks/Products/operations";
 
 //themeファイルはブレイクポイントなどの情報が入っている
 const useStyles = makeStyles((theme) => ({
@@ -45,12 +54,20 @@ const useStyles = makeStyles((theme) => ({
 
 const ProductCard = (props) => {
   const dispatch = useDispatch();
-
   const classes = useStyles();
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const images = props.images.length > 0 ? props.images : [{ path: NoImage }];
-
   //３桁区切りのカンマ
-
   const price = props.price.toLocaleString();
 
   return (
@@ -69,6 +86,32 @@ const ProductCard = (props) => {
             ¥{price}
           </Typography>
         </div>
+        <IconButton onClick={handleClick}>
+          <MOreVertIcon />
+        </IconButton>
+        <Menu
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem
+            onClick={() => {
+              dispatch(push("/product/edit/" + props.id));
+              handleClose();
+            }}
+          >
+            編集する
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              dispatch(deleteProduct(props.id));
+              handleClose();
+            }}
+          >
+            削除する
+          </MenuItem>
+        </Menu>
       </CardContent>
     </Card>
   );

@@ -1,9 +1,28 @@
 import { db, FirebaseTimestamp } from "../../Firebase";
 import { push } from "connected-react-router";
 import { fetchProductsAction } from "./actions";
+import { deleteProductAction } from "./actions";
 
 const productsRef = db.collection("products");
 
+//Productの削除
+
+export const deleteProduct = (id) => {
+  return async (dispatch, getState) => {
+    productsRef
+      .doc(id)
+      .delete()
+      .then(() => {
+        const prevProducts = getState().products.list;
+        const nextProducts = prevProducts.filter(
+          (product) => product.id !== id
+        );
+        dispatch(deleteProductAction(nextProducts));
+      });
+  };
+};
+
+//firestoreからProducts情報を取得してactionsに投げる
 export const fetchProducts = () => {
   return async (dispatch) => {
     //更新日付順に並び替える
