@@ -75,7 +75,7 @@ const ProductCard = (props) => {
       <CardMedia
         className={classes.media}
         image={props.images[0].path}
-        onClick={() => dispatch(push("/product" + props.id))}
+        onClick={() => dispatch(push("/product/" + props.id))}
       />
       <CardContent className={classes.content}>
         <div onClick={() => dispatch(push("/product" + props.id))}>

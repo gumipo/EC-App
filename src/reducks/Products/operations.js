@@ -6,7 +6,6 @@ import { deleteProductAction } from "./actions";
 const productsRef = db.collection("products");
 
 //Productの削除
-
 export const deleteProduct = (id) => {
   return async (dispatch, getState) => {
     productsRef

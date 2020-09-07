@@ -11,13 +11,19 @@ import createStore from "./reducks/Store/store";
 import { ConnectedRouter } from "connected-react-router";
 import * as History from "history";
 
+//materialUi theme
+import { MuiThemeProvider } from "@material-ui/core";
+import { theme } from "./assets/theme";
+
 const history = History.createBrowserHistory();
 export const store = createStore(history);
 
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <App />
+      <MuiThemeProvider theme={theme}>
+        <App />
+      </MuiThemeProvider>
     </ConnectedRouter>
   </Provider>,
   document.getElementById("root")
