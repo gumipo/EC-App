@@ -66,7 +66,8 @@ const ProductCard = (props) => {
     setAnchorEl(null);
   };
 
-  const images = props.images.length > 0 ? props.images : [{ path: NoImage }];
+  const images =
+    props.images.length > 0 ? props.images[0].path : [{ path: NoImage }];
   //３桁区切りのカンマ
   const price = props.price.toLocaleString();
 
@@ -74,7 +75,7 @@ const ProductCard = (props) => {
     <Card className={classes.root}>
       <CardMedia
         className={classes.media}
-        image={props.images[0].path}
+        image={images}
         onClick={() => dispatch(push("/product/" + props.id))}
       />
       <CardContent className={classes.content}>
