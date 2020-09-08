@@ -36,11 +36,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+//改行コード
 const returnCodeToBr = (text) => {
   if (text === "") {
     return text;
   } else {
-    //改行コードを<br>ダグに変換
+    //<br>ダグに変換
     return HTMLReactParser(text.replace(/\r?\n/g, "<br/>"));
   }
 };
