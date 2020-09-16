@@ -2,6 +2,25 @@ import { signInAction, signOutAction } from "./actions";
 import { push } from "connected-react-router";
 //import firebase
 import { auth, FirebaseTimestamp, db } from "../../Firebase/index";
+import { fetchProductsInCartAction } from "../../reducks/Users/actions";
+
+//userそれぞれのCartIdを作成
+export const addProductToCart = (addedProduct) => {
+  return async (dispatch, getState) => {
+    const uid = getState().users.uid;
+    const cartRef = db.collection("users").doc(uid).collection("cart").doc();
+    addedProduct["cartId"] = cartRef.id;
+    await cartRef.set(addedProduct);
+    dispatch(push("/"));
+  };
+};
+
+//reduxのcart情報を更新
+export const fetchProductsInCart = (products) => {
+  return async (dispatch) => {
+    dispatch(fetchProductsInCartAction(products));
+  };
+};
 
 //認証をリッスン関数
 export const listenAuthState = () => {

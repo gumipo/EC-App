@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { TextInput } from "../UIkit/index";
 import { push } from "connected-react-router";
+import { signOut } from "../../reducks/Users/operations";
 
 //import materialUi
 import { makeStyles } from "@material-ui/styles";
@@ -9,9 +10,9 @@ import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 import IconButton from "@material-ui/core/IconButton";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
 import SearchIcon from "@material-ui/icons/Search";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import HistoryIcon from "@material-ui/icons/History";
@@ -30,8 +31,8 @@ const useStyles = makeStyles((theme) => ({
     width: 256,
   },
   searchField: {
-    alignItems: "center",
     display: "flex",
+    alignItems: "center",
     marginLeft: 32,
   },
 }));
@@ -83,14 +84,17 @@ const ClosableDrawer = (props) => {
     <nav className={classes.drawer}>
       <Drawer
         container={container}
-        variant="temporary"
-        anchor="right"
+        variant="temporary" //開いたり閉じたり
+        anchor="right" //どっちから出るか
         open={props.open}
         onClose={(e) => props.onClose(e)}
         classes={{ paper: classes.drawerPaper }}
-        ModalProps={{ keepMounted: true }}
+        ModalProps={{ keepMounted: true }} //スマホの時にパフォマンス上がる
       >
-        <div>
+        <div
+          onClose={(e) => props.onClose(e)}
+          onKeyDown={(e) => props.onClose(e)}
+        >
           <div className={classes.searchField}>
             <TextInput
               fullWidth={false}
@@ -106,6 +110,7 @@ const ClosableDrawer = (props) => {
             </IconButton>
           </div>
           <Divider />
+
           <List>
             {menus.map((menu) => (
               <ListItem
@@ -117,7 +122,7 @@ const ClosableDrawer = (props) => {
                 <ListItemText primary={menu.label} />
               </ListItem>
             ))}
-            <ListItem button key="logout">
+            <ListItem button key="logout" onClick={() => dispatch(signOut())}>
               <ListItemIcon>
                 <ExitToAppIcon />
               </ListItemIcon>
