@@ -6,6 +6,7 @@ import { CartListItem } from "../Component/Products/index";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import { PrimaryButton, TextDetail } from "../Component/UIkit";
+import { orderProduct } from "../reducks/Products/operations";
 
 const useStyles = makeStyles((theme) => ({
   detailBox: {
@@ -33,6 +34,7 @@ const OrderConfirm = () => {
   const selector = useSelector((state) => state);
   const productsInCart = getProductsInCart(selector);
   const dispatch = useDispatch();
+  console.log(productsInCart);
 
   //ProductInCartの値が変わる度に商品の合計金額を計算する
   const subTotal = useMemo(() => {
@@ -45,6 +47,10 @@ const OrderConfirm = () => {
   const tax = (subTotal + shippingFee) * 0.1;
   //合計
   const total = subTotal + shippingFee + tax;
+
+  const order = useCallback(() => {
+    dispatch(orderProduct(productsInCart, total));
+  }, [productsInCart, total]);
 
   return (
     <section className="c-section-wrapin">
@@ -73,6 +79,7 @@ const OrderConfirm = () => {
             label={"合計(税込)"}
             value={"¥" + total.toLocaleString()}
           />
+          <PrimaryButton label={"注文する"} onClick={order} />
         </div>
       </div>
     </section>
