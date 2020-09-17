@@ -3,6 +3,7 @@ import { push } from "connected-react-router";
 //import firebase
 import { auth, FirebaseTimestamp, db } from "../../Firebase/index";
 import { fetchProductsInCartAction } from "../../reducks/Users/actions";
+import { fetchOrdersHistoryAction } from "../../reducks/Users/actions";
 
 //userそれぞれのCartIdを作成
 export const addProductToCart = (addedProduct) => {
@@ -12,6 +13,26 @@ export const addProductToCart = (addedProduct) => {
     addedProduct["cartId"] = cartRef.id;
     await cartRef.set(addedProduct);
     dispatch(push("/"));
+  };
+};
+
+//注文履歴の取得
+export const fetchOrderHistory = () => {
+  return async (dispatch, getState) => {
+    const uid = getState().users.uid;
+    const list = [];
+    db.collection("users")
+      .doc(uid)
+      .collection("orders")
+      .orderBy("updated_at", "desc")
+      .get()
+      .then((snapshots) => {
+        snapshots.forEach((snapshot) => {
+          const data = snapshot.data();
+          list.push(data);
+        });
+        dispatch(fetchOrdersHistoryAction(list));
+      });
   };
 };
 
