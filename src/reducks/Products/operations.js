@@ -65,7 +65,7 @@ export const saveProduct = (
       updated_at: timestamp,
     };
 
-    //編集の場合
+    //新規の場合
     if (id === "") {
       const ref = productsRef.doc();
       id = ref.id;
