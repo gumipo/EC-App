@@ -37,7 +37,7 @@ const OrderedProducts = (props) => {
   return (
     <List>
       {products.map((product) => (
-        <>
+        <div key={product.id}>
           <ListItem className={classes.list} key={product.id}>
             <ListItemAvatar>
               <img
@@ -59,7 +59,7 @@ const OrderedProducts = (props) => {
             />
           </ListItem>
           <Divider />
-        </>
+        </div>
       ))}
     </List>
   );

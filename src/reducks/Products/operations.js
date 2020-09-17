@@ -112,7 +112,7 @@ export const orderProduct = (productsInCart, amount) => {
           };
 
           orderRef.set(history);
-          dispatch(push("/order/complete"));
+          dispatch(push("/order/history"));
         })
         .catch(() => {
           alert(

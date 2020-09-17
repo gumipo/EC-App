@@ -21,7 +21,8 @@ const ProductEdit = () => {
     [gender, setGender] = useState(""),
     [images, setImages] = useState([]),
     [price, setPrice] = useState(""),
-    [sizes, setSizes] = useState([]);
+    [sizes, setSizes] = useState([]),
+    [categories, setCategories] = useState([]);
 
   const inputName = useCallback(
     (event) => {
@@ -44,12 +45,6 @@ const ProductEdit = () => {
     [setPrice]
   );
 
-  const categories = [
-    { id: "tops", name: "トップス" },
-    { id: "shirts", name: "シャツ" },
-    { id: "pants", name: "パンツ" },
-    { id: "shoes", name: "靴" },
-  ];
   const genders = [
     { id: "all", name: "すべて" },
     { id: "male", name: "メンズ" },
@@ -74,6 +69,23 @@ const ProductEdit = () => {
         });
     }
   }, [id]);
+
+  useEffect(() => {
+    db.collection("categories")
+      .orderBy("order", "asc")
+      .get()
+      .then((snapshots) => {
+        const list = [];
+        snapshots.forEach((snapshot) => {
+          const data = snapshot.data();
+          list.push({
+            id: data.id,
+            name: data.name,
+          });
+        });
+        setCategories(list);
+      });
+  }, []);
 
   return (
     <section>
