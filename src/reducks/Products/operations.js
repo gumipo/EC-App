@@ -22,20 +22,19 @@ export const deleteProduct = (id) => {
 };
 
 //firestoreからProducts情報を取得してactionsに投げる
-export const fetchProducts = () => {
+export const fetchProducts = (gender, category) => {
   return async (dispatch) => {
-    //更新日付順に並び替える
-    productsRef
-      .orderBy("updated_at", "desc")
-      .get()
-      .then((snapshots) => {
-        const productList = [];
-        snapshots.forEach((snapshot) => {
-          const product = snapshot.data();
-          productList.push(product);
-        });
-        dispatch(fetchProductsAction(productList));
+    let query = productsRef.orderBy("updated_at", "desc");
+    query = gender !== "" ? query.where("gender", "==", gender) : query;
+    query = category !== "" ? query.where("category", "==", category) : query;
+    query.get().then((snapshots) => {
+      const productList = [];
+      snapshots.forEach((snapshot) => {
+        const product = snapshot.data();
+        productList.push(product);
       });
+      dispatch(fetchProductsAction(productList));
+    });
   };
 };
 
